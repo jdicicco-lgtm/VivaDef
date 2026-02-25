@@ -1278,41 +1278,6 @@ function sumForIndices(indicesSet) {
     totalRevenueDays: 0
   };
 
-  baseAggregates.forEach(b => {
-    const idx = getMonthIndexGlobal(b.year, b.month);
-    if (indicesSet.has(idx)) {
-
-      // 👉 invece di sommare, memorizziamo i valori mensili
-      res.fleetValues.push(b.fleetSize);
-
-      res.canoneImponibile += b.canoneImponibile;
-      res.canoneIvato += b.canoneIvato;
-      res.assicurazione += b.assicurazione;
-      res.costoTotale += b.costoTotale;
-      res.revenue += b.revenue;
-      res.numBookings += b.numBookings;
-      res.noleggiati += b.noleggiati;
-      res.totalRevenueDays += b.revenueDays || 0;
-    }
-  });
-
-  // 👉 MEDIA reale flotta
-  if (res.fleetValues.length > 0) {
-    res.fleetSize =
-      res.fleetValues.reduce((a, b) => a + b, 0) /
-      res.fleetValues.length;
-  } else {
-    res.fleetSize = 0;
-  }
-
-  if (res.totalRevenueDays > 0) {
-    res.revenuePerDay = res.revenue / res.totalRevenueDays;
-  } else {
-    res.revenuePerDay = 0;
-  }
-
-  return res;
-}
         baseAggregates.forEach(b => {
           const idx = getMonthIndexGlobal(b.year, b.month);
           if (indicesSet.has(idx)) {
