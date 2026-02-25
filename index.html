@@ -646,18 +646,23 @@ function fmtEuro(x) {
     };
 
     function canonicalGroup(raw) {
-      if (raw === null || raw === undefined) return null;
-      let s = String(raw).trim();
-      if (!s || s.toLowerCase() === "nan") return null;
+  if (!raw) return null;
 
-      const up = s.toUpperCase();
-      if (RAW_GROUP_MAP[up]) return RAW_GROUP_MAP[up];
+  let s = String(raw).trim().toUpperCase();
 
-      const match = VEHICLE_GROUPS.find(g => g.toUpperCase() === up);
-if (match) return match;
+  if (s.includes("ECONOMY")) return "Economy";
+  if (s.includes("SMALL")) return "Small";
+  if (s.includes("MINI")) return "Mini";
+  if (s.includes("LARGE")) return "Large";
+  if (s.includes("PREMIUM")) return "Premium";
+  if (s.includes("SUV")) return "Suv";
+  if (s.includes("COMMERCIAL")) return "Commercial Van";
+  if (s.includes("PEOPLE")) return "People Mover";
+  if (s.includes("STATION")) return "Station Wagon";
+  if (s.includes("CABRIO")) return "Cabriolet";
 
-      return null;
-    }
+  return null;
+}
 
     const MONTH_LABELS_IT = [
       "Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno",
