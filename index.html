@@ -1023,8 +1023,16 @@ fetch("bookings2025.json")
     if (!startDate || !endDate) return;
     if (endDate < startDate) return;
 
-    const canoneImp = parseFloat(String(row["CANONE IMPONIBILE"] ?? "0").replace(",", ".")) || 0;
-    const canoneIvato = parseFloat(String(row["CANONE IVATO"] ?? "0").replace(",", ".")) || 0;
+   let canoneIvato =
+  parseFloat(String(row["CANONE IVATO"] ?? "0").replace(",", ".")) || 0;
+
+let canoneImp =
+  parseFloat(String(row["CANONE IMPONIBILE"] ?? "0").replace(",", ".")) || 0;
+
+// 🔥 Se imponibile è zero ma ho ivato, lo calcolo
+if (!canoneImp && canoneIvato) {
+  canoneImp = canoneIvato / 1.22;
+}
     const coperturaAss = parseFloat(String(row["COPERTURA ASS."] ?? "0").replace(",", ".")) || 0;
 
     const startYear = Math.max(2024, startDate.getFullYear());
