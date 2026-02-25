@@ -1213,18 +1213,10 @@ if (!canoneImp && canoneIvato) {
         if (!year || !month) return;
 
         const key = formatYearMonthKey(year, month);
-       const fleetCount = fleetData.filter(v => {
-
-  const start = Number(v["DATA INIZIO"]);
-  const end = Number(v["DATA FINE"]);
-
-  if (!start || !end) return false;
-
-  return start <= monthEnd.getTime() &&
-         end >= monthStart.getTime();
-
-}).length;
-
+      const fleetCount = fleetData.filter(v =>
+  Number(v["DATA INIZIO"]) <= monthEnd.getTime() &&
+  Number(v["DATA FINE"]) >= monthStart.getTime()
+).length;
       monthlyMap.forEach((bucket, key) => {
         const stats = monthStats.get(key);
         if (!stats || stats.all <= 0 || stats.selected <= 0) return;
