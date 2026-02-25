@@ -1191,48 +1191,6 @@ if (!canoneImp && canoneIvato) {
 
 
     // =========================
-    // STATION FILTER (flotta) via fleetStations2025
-    // =========================
-    function applyStationFilterToFleet(monthlyMap, groups, stations) {
-      if (!fleetStationsData || fleetStationsData.length === 0) return;
-      if (!stations || stations.length === 0) return;
-
-      const monthStats = new Map();
-
-      fleetStationsData.forEach(row => {
-        const gruppoCanonico = canonicalGroup(row["group"]);
-        if (!gruppoCanonico) return;
-        if (groups.length > 0 && !groups.includes(gruppoCanonico)) return;
-
-        const rawStation = row["station"];
-        const stationNorm = normalizeStationName(rawStation);
-        if (!stationNorm) return;
-
-        const year = parseInt(row["year"], 10);
-        const month = parseInt(row["month"], 10);
-        if (!year || !month) return;
-
-        const key = formatYearMonthKey(year, month);
-      const fleetCount = fleetData.filter(v =>
-  Number(v["DATA INIZIO"]) <= monthEnd.getTime() &&
-  Number(v["DATA FINE"]) >= monthStart.getTime()
-).length;
-      monthlyMap.forEach((bucket, key) => {
-        const stats = monthStats.get(key);
-        if (!stats || stats.all <= 0 || stats.selected <= 0) return;
-
-        const factor = stats.selected / stats.all;
-        if (!isFinite(factor) || factor <= 0) return;
-
-        bucket.fleetSize *= factor;
-        bucket.canoneImponibile *= factor;
-        bucket.canoneIvato *= factor;
-        bucket.assicurazione *= factor;
-        bucket.costoTotale *= factor;
-      });
-    }
-
-    // =========================
     // KPI
     // =========================
     function updateKpiCards() {
