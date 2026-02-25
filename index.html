@@ -645,19 +645,26 @@ function fmtEuro(x) {
       "CABRIO": "Cabriolet"
     };
 
-    function canonicalGroup(raw) {
+  function canonicalGroup(raw) {
   if (!raw) return null;
 
   let s = String(raw).trim().toUpperCase();
 
+  // MINI / SMALL / ECONOMY / ecc
   if (s.includes("ECONOMY")) return "Economy";
   if (s.includes("SMALL")) return "Small";
   if (s.includes("MINI")) return "Mini";
   if (s.includes("LARGE")) return "Large";
   if (s.includes("PREMIUM")) return "Premium";
   if (s.includes("SUV")) return "Suv";
+
+  // 🔥 NUOVI MAPPING IMPORTANTI
+  if (s.includes("FURGONE")) return "Commercial Van";
   if (s.includes("COMMERCIAL")) return "Commercial Van";
+
+  if (s.includes("VAN")) return "People Mover";
   if (s.includes("PEOPLE")) return "People Mover";
+
   if (s.includes("STATION")) return "Station Wagon";
   if (s.includes("CABRIO")) return "Cabriolet";
 
