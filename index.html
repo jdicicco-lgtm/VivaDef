@@ -653,7 +653,8 @@ function fmtEuro(x) {
       const up = s.toUpperCase();
       if (RAW_GROUP_MAP[up]) return RAW_GROUP_MAP[up];
 
-      if (VEHICLE_GROUPS.includes(s)) return s;
+      const match = VEHICLE_GROUPS.find(g => g.toUpperCase() === up);
+if (match) return match;
 
       return null;
     }
