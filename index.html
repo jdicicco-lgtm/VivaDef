@@ -991,7 +991,10 @@ fetch("bookings2025.json")
   const monthlyMap = new Map();
   for (let year = 2024; year <= 2026; year++) {
     for (let month = 1; month <= 12; month++) {
-      const key = formatYearMonthKey(year, month);
+     const year = parseInt(row.year, 10);
+const month = parseInt(row.month, 10);
+
+const key = formatYearMonthKey(year, month);
       monthlyMap.set(key, {
         year,
         month,
@@ -1872,7 +1875,13 @@ computeMonthlyAggregatesBase = function(filters) {
 
   for (let year = 2024; year <= 2026; year++) {
     for (let month = 1; month <= 12; month++) {
-      const key = formatYearMonthKey(year, month);
+      const year = parseInt(row.year, 10);
+const month = parseInt(row.month, 10);
+
+const year = parseInt(row.year, 10);
+const month = parseInt(row.month, 10);
+
+const key = formatYearMonthKey(year, month);
       monthlyMap.set(key, {
         year, month, key,
         label: MONTH_LABELS_IT[month - 1].slice(0, 3) + " " + year,
@@ -1901,7 +1910,10 @@ computeMonthlyAggregatesBase = function(filters) {
     const stationNorm = normalizeStationName(row.branch);
     if (stations.length > 0 && (!stationNorm || !stations.includes(stationNorm))) return;
 
-    const key = formatYearMonthKey(row.year, row.month);
+    const year = parseInt(row.year, 10);
+const month = parseInt(row.month, 10);
+
+const key = formatYearMonthKey(year, month);
     const bucket = monthlyMap.get(key);
     if (!bucket) return;
 
