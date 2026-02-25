@@ -1263,19 +1263,56 @@ if (!canoneImp && canoneIvato) {
       const prevStartClamped = clamp(prevStart, 0, 35);
       const prevEndClamped = clamp(prevEnd, 0, 35);
 
-      function sumForIndices(indicesSet) {
-        const res = {
-          fleetSize: 0,
-          canoneImponibile: 0,
-          canoneIvato: 0,
-          assicurazione: 0,
-          costoTotale: 0,
-          revenue: 0,
-          revenuePerDay: 0,
-          numBookings: 0,
-          noleggiati: 0,
-          totalRevenueDays: 0
-        };
+function sumForIndices(indicesSet) {
+
+  const res = {
+    fleetValues: [],
+    canoneImponibile: 0,
+    canoneIvato: 0,
+    assicurazione: 0,
+    costoTotale: 0,
+    revenue: 0,
+    revenuePerDay: 0,
+    numBookings: 0,
+    noleggiati: 0,
+    totalRevenueDays: 0
+  };
+
+  baseAggregates.forEach(b => {
+    const idx = getMonthIndexGlobal(b.year, b.month);
+    if (indicesSet.has(idx)) {
+
+      // 👉 invece di sommare, memorizziamo i valori mensili
+      res.fleetValues.push(b.fleetSize);
+
+      res.canoneImponibile += b.canoneImponibile;
+      res.canoneIvato += b.canoneIvato;
+      res.assicurazione += b.assicurazione;
+      res.costoTotale += b.costoTotale;
+      res.revenue += b.revenue;
+      res.numBookings += b.numBookings;
+      res.noleggiati += b.noleggiati;
+      res.totalRevenueDays += b.revenueDays || 0;
+    }
+  });
+
+  // 👉 MEDIA reale flotta
+  if (res.fleetValues.length > 0) {
+    res.fleetSize =
+      res.fleetValues.reduce((a, b) => a + b, 0) /
+      res.fleetValues.length;
+  } else {
+    res.fleetSize = 0;
+  }
+
+  if (res.totalRevenueDays > 0) {
+    res.revenuePerDay = res.revenue / res.totalRevenueDays;
+  } else {
+    res.revenuePerDay = 0;
+  }
+
+  return res;
+}
 
         baseAggregates.forEach(b => {
           const idx = getMonthIndexGlobal(b.year, b.month);
